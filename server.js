@@ -2,7 +2,9 @@ const express = require('express');
 const {faker} = require('@faker-js/faker');
 const app = express();
 const path = require("path");
-const {setPerson, getPersons, getPerson,deletePersons} = require('./data/index')
+const {logger} = require("./logger");
+const {setPerson, getPersons, getPerson,deletePersons, getConnection} = require('./data/index')
+const {get} = require("mongoose");
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
@@ -22,6 +24,14 @@ const getRandomNameSync = () => {
     return {firstName: faker.name.firstName(), lastName: faker.name.lastName()}
 };
 
+app.get('/api/connection', async (req, res) => {
+    logger.info(`Getting connection.`);
+    const conn = await getConnection();
+    const connectionInfo = {host: conn.connections["0"].host, port: conn.connections["0"].port, name:conn.connections["0"].name }
+    logger.info(`Got connection info ${JSON.stringify(connectionInfo)}`);
+    res.status(200).send({connectionInfo});
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/index.html'));
 });
@@ -29,37 +39,37 @@ app.get('/', (req, res) => {
 app.post('/api/names', async (req, res) => {
     const name = req.body;
     await setPerson(name);
-    console.log(`Posting ${JSON.stringify(name)}`);
+    logger.info(`Posting ${JSON.stringify(name)}`);
     res.status(200).send({status: 200, message: 'OK'});
 });
 
 app.get('/api/names', async (req, res) => {
     const msg = `Getting names`;
-    console.log(msg);
+    logger.info(msg);
     const result = await getPersons();
     res.status(200).send(result);
 });
 
 app.delete('/api/names', async (req, res) => {
     const msg = `Deleting names`;
-    console.log(msg);
+    logger.info(msg);
     const result = await deletePersons();
     res.status(200).send(result);
 });
 
 app.get('/api/names:id', async (req, res) => {
     const msg = `Getting name ${req.params.id}`;
-    console.log(msg);
+    logger.info(msg);
     const result = await getPerson(req.params.id);
     res.status(200).send({firstName: result.firstName, lastName: result.lastName});
 });
 app.get('/api/random_name', (req, res) => {
     const randomName = getRandomNameSync()
     const msg = `Getting random name ${JSON.stringify(randomName)}`;
-    console.log(msg);
+    logger.info(msg);
     res.status(200).send(randomName);
 });
 
 server = app.listen(port, () => {
-    console.log(`Node server is running on port ${port} at ${new Date()}`);
+    logger.info(`Node server is running on port ${port} at ${new Date()}`);
 });

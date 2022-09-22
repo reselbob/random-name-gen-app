@@ -75,7 +75,7 @@
             document.getElementById('firstName').innerText = data.firstName;
             document.getElementById('lastName').innerText = data.lastName;
             // Work with JSON data here
-            console.log(data);
+            logger.info(data);
         }).catch(err => {
             // Do something for an error here
         });
@@ -134,7 +134,7 @@
             return response.json();
         }).then(data => {
             printNames(data);
-            console.log(data);
+            logger.info(data);
         }).catch(err => {
             // Do something for an error here
         });

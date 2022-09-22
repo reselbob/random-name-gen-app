@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const fs = require('fs');
 const path = require('path');
+const {logger} = require("../logger");
 //const projectDir = fs.realpathSync( process.cwd() + '../' )
 require('dotenv').config({ path: path.join(process.cwd() , '.env') })
 if (!process.env.MONGODB_URL)throw new Error('The required environment variable, MONGODB_URL does not exist or has no value');
@@ -17,7 +18,7 @@ const getConnection = async () => {
         }
         const url = `${mStr}${dbName}`;
         let conn;
-        console.log(`Attempting to connect at url: ${url}.`)
+        logger.info(`Attempting to connect at url: ${url}.`)
         conn = await mongoose.connect(url).catch(e =>{
             console.error(e);
             throw e;
@@ -30,9 +31,9 @@ const getConnection = async () => {
 const closeConnection = async () => {
     if (connection) {
         const url = connection.url;
-        console.log(`Closing connection into ${url}`);
+        logger.info(`Closing connection into ${url}`);
         connection.disconnect();
-        console.log(`Closed connection into ${url}`);
+        logger.info(`Closed connection into ${url}`);
     }
 }
 
