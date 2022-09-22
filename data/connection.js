@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
+const fs = require('fs');
+const path = require('path');
+//const projectDir = fs.realpathSync( process.cwd() + '../' )
+require('dotenv').config({ path: path.join(process.cwd() , '.env') })
 if (!process.env.MONGODB_URL)throw new Error('The required environment variable, MONGODB_URL does not exist or has no value');
+const dbName = process.env.DB_NAME || 'namegen'
+
 let connection;
 
 const getConnection = async () => {
@@ -9,7 +15,7 @@ const getConnection = async () => {
         if( mStr.substr(mStr.length - 1) !== "/") {
             mStr = mStr + "/";
         }
-        const url = `${mStr}${process.env.RESELLER_DB_NAME}`;
+        const url = `${mStr}${dbName}`;
         let conn;
         console.log(`Attempting to connect at url: ${url}.`)
         conn = await mongoose.connect(url).catch(e =>{
@@ -31,7 +37,7 @@ const closeConnection = async () => {
 }
 
 const getConnectionUrlSync = () => {
-    return `${process.env.MONGODB_URL}/${process.env.RESELLER_DB_NAME}`;
+    return `${process.env.MONGODB_URL}/${dbName}`;
 };
 
 module.exports = {getConnection, closeConnection, getConnectionUrlSync};

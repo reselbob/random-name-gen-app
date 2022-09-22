@@ -2,7 +2,7 @@
   "name": "name-gen",
   "version": "1.0.0",
   "description": "A demonstration application for automatically generating names for storage in a database",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "test"
   },
@@ -13,7 +13,8 @@
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "html": "^1.0.0",
-    "mongoose": "^6.6.1"
+    "mongoose": "^6.6.1",
+    "mongoose-lean-virtuals": "^0.9.1"
   },
   "devDependencies": {
     "chai": "^4.3.6",

@@ -9,3 +9,8 @@ const person = new mongoose.Schema({
         default: Date.now
     }
 });
+
+person.plugin(mongooseLeanVirtuals);
+
+const Person = mongoose.model('Person', person);
+module.exports = { Person};
