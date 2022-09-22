@@ -4,7 +4,7 @@ const app = express();
 const path = require("path");
 const {setPerson, getPersons, getPerson,deletePersons} = require('./data/index')
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 const names = [];
