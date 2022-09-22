@@ -26,7 +26,15 @@ A demonstration project that has an API backend using MongoDB and an HTML front 
 
 `node server.js`
 
-By default, the app runs on port `3090`
+By default, the app runs on port `8080`
+
+To change the port on which the web server is listening, add the following to the `.env` file in the root of the project's working directory:
+
+`SERVER_PORT=<port_number>`
+
+WHERE
+
+**`<port_number>` is the number of the port for the web server.
 
 ---
 

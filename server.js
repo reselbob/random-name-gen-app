@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const port = process.env.SERVER_PORT || 3090;
+const port = process.env.SERVER_PORT || 8080;
 const getRandomNameSync = () => {
     return {firstName: faker.name.firstName(), lastName: faker.name.lastName()}
 };
