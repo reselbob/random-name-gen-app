@@ -26,7 +26,11 @@ const getRandomNameSync = () => {
 
 app.get('/api/connection', async (req, res) => {
     logger.info(`Getting connection.`);
-    const conn = await getConnection();
+    const conn = await getConnection()
+        .catch(e=> {
+            logger.info(`Got connection info ${JSON.stringify(e.message)}`);
+            res.status(500).send({message:e.message,more: process.env.MONGODB_URL});
+        });
     const connectionInfo = {host: conn.connections["0"].host, port: conn.connections["0"].port, name:conn.connections["0"].name }
     logger.info(`Got connection info ${JSON.stringify(connectionInfo)}`);
     res.status(200).send({connectionInfo});
