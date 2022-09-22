@@ -2,7 +2,7 @@ const express = require('express');
 const {faker} = require('@faker-js/faker');
 const app = express();
 const path = require("path");
-const {setPerson, getPersons, getPerson} = require('./data/index')
+const {setPerson, getPersons, getPerson,deletePersons} = require('./data/index')
 
 app.use(express.urlencoded());
 app.use(express.json())
@@ -34,9 +34,16 @@ app.post('/api/names', async (req, res) => {
 });
 
 app.get('/api/names', async (req, res) => {
-    const msg = `Getting names from an array named names, that has a length of ${names.length}`;
+    const msg = `Getting names`;
     console.log(msg);
     const result = await getPersons();
+    res.status(200).send(result);
+});
+
+app.delete('/api/names', async (req, res) => {
+    const msg = `Deleting names`;
+    console.log(msg);
+    const result = await deletePersons();
     res.status(200).send(result);
 });
 

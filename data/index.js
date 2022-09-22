@@ -33,9 +33,8 @@ const getPerson = async (id) => {
 const deletePersons = async () => {
     const conn = await getConnection()
     console.log(`Deleting all Persons}`);
-    const item = Person.findById(id).lean({virtuals: true});
     await Person.deleteMany({});
     console.log(`All persons delete at ${new Date()}`)
 };
 
-module.exports = {setPerson, getPersons, getPerson}
+module.exports = {setPerson, getPersons, getPerson,deletePersons}
